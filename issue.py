@@ -32,8 +32,11 @@ def getGitHubIssues(auth, repo):
         else:
             print(str(response.status_code) + ": " + response.json()['message'])
 
-        matches = re.findall('<(.*?)>; rel="(.*?)"', response.headers['link'])
-        links = dict((rel, url) for url, rel in matches)
+        if 'link' in response.headers:
+            matches = re.findall('<(.*?)>; rel="(.*?)"', response.headers['link'])
+            links = dict((rel, url) for url, rel in matches)
+        else:
+            links = dict()
 
     return githubIssues
 
